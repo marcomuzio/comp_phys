@@ -11,8 +11,10 @@ using namespace std;
 float trap_rule(float lower, float upper, int N_points);
 float simps_rule(float lower, float upper, int N_points);
 float GL_quad(float lower, float upper, int N_points);
-float Laguerre(int n, float x);
-float Lag_roots(int n, int root);
+float Legendre(int n, float x);
+float dLegendre(int n, float x);
+float Leg_roots(int n, int root);
+float Leg_weights(int n, int root);
 int factorial(int n);
 int binomial(int n, int k);
 float rel_error(float integral);
@@ -48,7 +50,7 @@ int main()
 	simps.close();
 
 	// GL quadrature calculations
-	for(int i=2; i<6; i++)
+	for(int i=2; i<8; i++)
 	{
 		integral = GL_quad(0.0, 1.0, i);
 
@@ -92,7 +94,7 @@ float simps_rule(float lower, float upper, int N_points)
 	for(int i=2; i<N_points-1; i += 2)
 	{
 		x_even = lower + (i-1)*h;
-		x_odd = lower + i*h;
+		x_odd = x_even + h;
 		
 		integral += 4.0*exp(-x_even)/3.0 + 2.0*exp(-x_odd)/3.0;
 	}
@@ -102,40 +104,29 @@ float simps_rule(float lower, float upper, int N_points)
 	return integral;
 }
 
-// Gauss-Legendre quadrature algorithm to calculate integral of exp(-t) -- only valid for N_points<6
+// Gauss-Legendre quadrature algorithm to calculate integral of exp(-t) -- only valid for N_points<8
 float GL_quad(float lower, float upper, int N_points)
 {
-	float integral, x, laguerre, weight, transformation_factor;
+	float integral, weight, transformation_factor, f;
+	float x;
 
 	integral = 0.0;
 
 	for(int i=1; i<=N_points; i++)
 	{
-		laguerre = Laguerre(N_points+1, Lag_roots(N_points, i));
-		weight = Lag_roots(N_points, i)/pow(N_points+1, 2)/pow(laguerre, 2);
-		transformation_factor = 2.0/pi/(pow(Lag_roots(N_points, i), 2) + 1.0);
+		x = Leg_roots(N_points, i);
+		weight = Leg_weights(N_points, i);
+		transformation_factor = (upper - lower)/2.0;
+		f = exp(-((upper - lower)/2.0*x + (upper + lower)/2.0));
 
-		integral += exp(-2.0/pi*atan(Lag_roots(N_points, i)))*weight*transformation_factor;
+		integral += f*weight*transformation_factor;
 	}
 
 	return integral;
 }
 
-// nth Laguerre polynomial at x
-float Laguerre(int n, float x)
-{
-	float value = 0.0;
-
-	for(int i=0; i<=n; i++)
-	{
-		value += binomial(n, i)*pow(-1.0, i)*pow(x, i)/factorial(i);
-	}
-
-	return value;
-}
-
-// Look-up table of Laguerre polynomial roots
-float Lag_roots(int n, int root)
+// Look-up table of 2nd-7th Legendre polynomial roots
+float Leg_roots(int n, int root)
 {
 	switch(n)
 	{
@@ -143,51 +134,148 @@ float Lag_roots(int n, int root)
 
 			switch(root)
 			{
-				case 1: return 0.585786;
-				case 2: return 3.41421;
+				case 1: return -0.577350269189626;
+				case 2: return 0.577350269189626;
 			}
 
 		case 3:
 
 			switch(root)
 			{
-				case 1: return 0.415775;
-				case 2: return 2.29428;
-				case 3: return 6.28995;
+				case 1: return -0.774596669241483;
+				case 2: return 0.0;
+				case 3: return 0.774596669241483;
 			}
 
 		case 4:
 
 			switch(root)
 			{
-				case 1: return 0.322548;
-				case 2: return 1.74576;
-				case 3: return 4.53662;
-				case 4: return 9.39507;
+				case 1: return -0.86113631159405;
+				case 2: return -0.339981043584856;
+				case 3: return 0.339981043584856;
+				case 4: return 0.86113631159405;
 			}
 
 		case 5:
 			
 			switch(root)
 			{	
-				case 1: return 0.26356;
-				case 2: return 1.4134;
-				case 3: return 3.59643;
-				case 4: return 7.08581;
-				case 5: return 12.6408;
+				case 1: return -0.906179845938664;
+				case 2: return -0.538469310105683;
+				case 3: return 0.0;
+				case 4: return 0.538469310105683;
+				case 5: return 0.906179845938664;
+			}
+
+		case 6:
+
+			switch(root)
+			{
+				case 1: return -0.932469514203152;
+				case 2: return -0.661209386466265;
+				case 3: return -0.238619186083197;
+				case 4: return 0.238619186083197;
+				case 5: return 0.661209386466265;
+				case 6: return 0.932469514203152;
+			}
+
+		case 7:
+
+			switch(root)
+			{
+				case 1: return -0.949107912342759;
+				case 2: return -0.741531185599394;
+				case 3: return -0.405845151377397; 
+				case 4: return 0.000000000000000;
+				case 5: return 0.405845151377397;
+				case 6: return 0.741531185599394;
+				case 7: return 0.949107912342759;
 			}
 	}
 
 	return 0;
 }
 
-// Factorial function for definition of Laguerre polynomials
+// Look-up table for weights corresponding to roots of 2nd-7th Legendre polynomial
+float Leg_weights(int n, int root)
+{
+	switch(n)
+	{
+		case(2):
+
+			switch(root)
+			{
+				case 1: return 1.000000000000000;
+				case 2: return 1.000000000000000;
+			}
+
+		case(3):
+
+			switch(root)
+			{
+				case 1: return 0.555555555555556;
+				case 2: return 0.888888888888889;
+				case 3: return 0.555555555555556;
+			}
+
+		case(4):
+
+			switch(root)
+			{
+				case 1: return 0.347854845137454;
+				case 2: return 0.652145154862546;
+				case 3: return 0.652145154862546;
+				case 4: return 0.347854845137454;
+			}
+
+		case(5):
+
+			switch(root)
+			{
+				case 1: return 0.236926885056189;
+				case 2: return 0.478628670499366;
+				case 3: return 0.568888888888889;
+				case 4: return 0.478628670499366;
+				case 5: return 0.236926885056189;
+			}
+
+		case(6):
+
+			switch(root)
+			{
+				case 1: return 0.171324492379170;
+				case 2: return 0.360761573048139;
+				case 3: return 0.467913934572691;
+				case 4: return 0.467913934572691;
+				case 5: return 0.360761573048139;
+				case 6: return 0.171324492379170;
+			}
+
+		case(7):
+
+			switch(root)
+			{
+				case 1: return 0.129484966168870;
+				case 2: return 0.279705391489277;
+				case 3: return 0.381830050505119;
+				case 4: return 0.417959183673469;
+				case 5: return 0.381830050505119;
+				case 6: return 0.279705391489277;
+				case 7: return 0.129484966168870;
+			}
+	}
+
+	return 0;
+}
+
+// Factorial function for definition of binomial coefficients
 int factorial(int n)
 {
 	  return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
 }
 
-// Binomial coefficients function for definition of Laguerre polynomials
+// Binomial coefficients function for definition of Legendre polynomials
 int binomial(int n, int k)
 {
 	return factorial(n)/factorial(k)/factorial(n-k);
