@@ -36,13 +36,13 @@ int main()
 
 			// First step
 			sign=random_number(iseed);
-			x[realization][0]=x_0+pow(-1.0,sign%2);
+			x[realization][0]=x_0+pow(-1.0,sign);
 
 			// Remaining Walk Loop
 			for(int step=1; step<n_steps; step++)
 			{
 				sign=random_number(sign);
-				x[realization][step]=x[realization][step-1]+pow(-1.0,sign%2);
+				x[realization][step]=x[realization][step-1]+pow(-1.0,sign);
 			}
 		}
 
