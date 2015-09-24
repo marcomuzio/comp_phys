@@ -1,1 +1,3 @@
-Compile prob3.cpp as prob3. To generate plots simply run the ./prob3.sh file. This runs the executable and generates the plots.
+Best method: Run RUNME.sh script.
+
+Manual method: Compile [problem].cpp files as [problem]. To generate plots simply run the ./[problem].sh file. This runs the executable and generates the plots. All plots are generated as .png files.

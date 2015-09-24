@@ -1,5 +1,7 @@
 #!/bin/sh
 
+### Marco Muzio - Homework 1 Problem 1 Script
+
 # Runs prob1 program to generate data
 ./prob1
 
@@ -7,10 +9,12 @@
 
 ## Plot data for forward difference algorithm
 gnuplot << EOF
-set terminal x11 persist
+set terminal pngcairo enhanced
+set encoding utf8
+set output 'forward_diff.png'
 set title 'Relative Error {/Symbol e}_r vs. Step h for Forward Difference Algorithm' 
 set xlabel 'h'
-set ylabel '{/Symbol e}'
+set ylabel '{/Symbol e}_r'
 set logscale xy
 set format xy '1e%T'
 set grid
@@ -22,10 +26,12 @@ EOF
 
 ## Plot data for central difference algorithm
 gnuplot << EOF
-set terminal x11 persist
+set terminal pngcairo enhanced
+set encoding utf8
+set output 'central_diff.png'
 set title 'Relative Error {/Symbol e}_r vs. Step h for Central Difference Algorithm' 
 set xlabel 'h'
-set ylabel '{/Symbol e}'
+set ylabel '{/Symbol e}_r'
 set logscale xy
 set format xy '1e%T'
 set grid
@@ -37,10 +43,12 @@ EOF
 
 ## Plot data for extrapolated difference algorithm
 gnuplot << EOF
-set terminal x11 persist
+set terminal pngcairo enhanced
+set encoding utf8
+set output 'extrap_diff.png'
 set title 'Relative Error {/Symbol e}_r vs. Step h for Extrapolated Difference Algorithm' 
 set xlabel 'h'
-set ylabel '{/Symbol e}'
+set ylabel '{/Symbol e}_r'
 set logscale xy
 set format xy '1e%T'
 set grid

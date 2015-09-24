@@ -1,0 +1,109 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c+c1}{// Marco Muzio \PYGdefaultZhy{} Homework 1 Problem 3 Source Code}
+
+\PYGdefault{c+cp}{\PYGdefaultZsh{}include\PYGdefaultZlt{}cmath\PYGdefaultZgt{}}
+\PYGdefault{c+cp}{\PYGdefaultZsh{}include\PYGdefaultZlt{}iostream\PYGdefaultZgt{}}
+\PYGdefault{c+cp}{\PYGdefaultZsh{}include\PYGdefaultZlt{}fstream\PYGdefaultZgt{}}
+
+\PYGdefault{n}{using} \PYGdefault{n}{namespace} \PYGdefault{n}{std}\PYGdefault{p}{;}
+
+\PYGdefault{k+kt}{int} \PYGdefault{n+nf}{random\PYGdefaultZus{}number}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{x\PYGdefaultZus{}in}\PYGdefault{p}{);}
+\PYGdefault{k+kt}{int} \PYGdefault{n+nf}{step\PYGdefaultZus{}sign}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{num}\PYGdefault{p}{);}
+
+\PYGdefault{k+kt}{int} \PYGdefault{n+nf}{main}\PYGdefault{p}{()}
+\PYGdefault{p}{\PYGdefaultZob{}}
+
+	\PYGdefault{k+kt}{int} \PYGdefault{n}{iseed}\PYGdefault{p}{,} \PYGdefault{n}{sign}\PYGdefault{p}{,} \PYGdefault{n}{n\PYGdefaultZus{}max}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{500}\PYGdefault{p}{,} \PYGdefault{n}{N\PYGdefaultZus{}R}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{1000}\PYGdefault{p}{;}
+	\PYGdefault{k+kt}{double} \PYGdefault{n}{x\PYGdefaultZus{}0}\PYGdefault{o}{=}\PYGdefault{l+m+mf}{0.0}\PYGdefault{p}{;}
+	\PYGdefault{k+kt}{double} \PYGdefault{n}{x}\PYGdefault{p}{[}\PYGdefault{n}{N\PYGdefaultZus{}R}\PYGdefault{p}{],} \PYGdefault{n}{sigma}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}max}\PYGdefault{p}{],} \PYGdefault{n}{s3}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}max}\PYGdefault{p}{],} \PYGdefault{n}{s4}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}max}\PYGdefault{p}{];}
+
+	\PYGdefault{c+c1}{// Initialization of arrays to zero}
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{i}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{0}\PYGdefault{p}{;} \PYGdefault{n}{i}\PYGdefault{o}{\PYGdefaultZlt{}}\PYGdefault{n}{n\PYGdefaultZus{}max}\PYGdefault{p}{;} \PYGdefault{n}{i}\PYGdefault{o}{++}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{n}{sigma}\PYGdefault{p}{[}\PYGdefault{n}{i}\PYGdefault{p}{]}\PYGdefault{o}{=}\PYGdefault{l+m+mf}{0.0}\PYGdefault{p}{;} \PYGdefault{n}{s3}\PYGdefault{p}{[}\PYGdefault{n}{i}\PYGdefault{p}{]}\PYGdefault{o}{=}\PYGdefault{l+m+mf}{0.0}\PYGdefault{p}{;} \PYGdefault{n}{s4}\PYGdefault{p}{[}\PYGdefault{n}{i}\PYGdefault{p}{]}\PYGdefault{o}{=}\PYGdefault{l+m+mf}{0.0}\PYGdefault{p}{;}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{j}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{0}\PYGdefault{p}{;} \PYGdefault{n}{j}\PYGdefault{o}{\PYGdefaultZlt{}}\PYGdefault{n}{N\PYGdefaultZus{}R}\PYGdefault{p}{;} \PYGdefault{n}{j}\PYGdefault{o}{++}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{n}{x}\PYGdefault{p}{[}\PYGdefault{n}{j}\PYGdefault{p}{]}\PYGdefault{o}{=}\PYGdefault{l+m+mf}{0.0}\PYGdefault{p}{;}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{c+c1}{// Steps Loop}
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{;} \PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZlt{}=}\PYGdefault{n}{n\PYGdefaultZus{}max}\PYGdefault{p}{;} \PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{++}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{c+c1}{// Realizations Loop}
+		\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{realization}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{0}\PYGdefault{p}{;} \PYGdefault{n}{realization}\PYGdefault{o}{\PYGdefaultZlt{}}\PYGdefault{n}{N\PYGdefaultZus{}R}\PYGdefault{p}{;} \PYGdefault{n}{realization}\PYGdefault{o}{++}\PYGdefault{p}{)}
+		\PYGdefault{p}{\PYGdefaultZob{}}
+			\PYGdefault{n}{iseed}\PYGdefault{o}{=}\PYGdefault{n}{realization}\PYGdefault{o}{+}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{;}
+
+			\PYGdefault{c+c1}{// First step}
+			\PYGdefault{n}{iseed}\PYGdefault{o}{=}\PYGdefault{n}{random\PYGdefaultZus{}number}\PYGdefault{p}{(}\PYGdefault{n}{iseed}\PYGdefault{p}{);}
+			\PYGdefault{n}{sign}\PYGdefault{o}{=}\PYGdefault{n}{step\PYGdefaultZus{}sign}\PYGdefault{p}{(}\PYGdefault{n}{iseed}\PYGdefault{p}{);}
+			\PYGdefault{n}{x}\PYGdefault{p}{[}\PYGdefault{n}{realization}\PYGdefault{p}{]}\PYGdefault{o}{=}\PYGdefault{n}{x\PYGdefaultZus{}0}\PYGdefault{o}{+}\PYGdefault{n}{pow}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{1.0}\PYGdefault{p}{,}\PYGdefault{n}{sign}\PYGdefault{p}{);}
+
+			\PYGdefault{c+c1}{// Remaining Walk Loop}
+			\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{step}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{;} \PYGdefault{n}{step}\PYGdefault{o}{\PYGdefaultZlt{}}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{p}{;} \PYGdefault{n}{step}\PYGdefault{o}{++}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{n}{iseed}\PYGdefault{o}{=}\PYGdefault{n}{random\PYGdefaultZus{}number}\PYGdefault{p}{(}\PYGdefault{n}{iseed}\PYGdefault{p}{);}
+				\PYGdefault{n}{sign}\PYGdefault{o}{=}\PYGdefault{n}{step\PYGdefaultZus{}sign}\PYGdefault{p}{(}\PYGdefault{n}{iseed}\PYGdefault{p}{);}
+				\PYGdefault{n}{x}\PYGdefault{p}{[}\PYGdefault{n}{realization}\PYGdefault{p}{]}\PYGdefault{o}{+=}\PYGdefault{n}{pow}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{1.0}\PYGdefault{p}{,}\PYGdefault{n}{sign}\PYGdefault{p}{);}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+		\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{c+c1}{// Calculation of data for n=n\PYGdefaultZus{}step}
+		\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{realization}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{0}\PYGdefault{p}{;} \PYGdefault{n}{realization}\PYGdefault{o}{\PYGdefaultZlt{}}\PYGdefault{n}{N\PYGdefaultZus{}R}\PYGdefault{p}{;} \PYGdefault{n}{realization}\PYGdefault{o}{++}\PYGdefault{p}{)}
+		\PYGdefault{p}{\PYGdefaultZob{}}
+			\PYGdefault{n}{sigma}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{]} \PYGdefault{o}{+=} \PYGdefault{n}{pow}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{[}\PYGdefault{n}{realization}\PYGdefault{p}{],}\PYGdefault{l+m+mi}{2}\PYGdefault{p}{);}
+			\PYGdefault{n}{s3}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{]} \PYGdefault{o}{+=} \PYGdefault{n}{pow}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{[}\PYGdefault{n}{realization}\PYGdefault{p}{],}\PYGdefault{l+m+mi}{3}\PYGdefault{p}{);} 
+			\PYGdefault{n}{s4}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{]} \PYGdefault{o}{+=} \PYGdefault{n}{pow}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{[}\PYGdefault{n}{realization}\PYGdefault{p}{],}\PYGdefault{l+m+mi}{4}\PYGdefault{p}{);}
+		\PYGdefault{p}{\PYGdefaultZcb{}}
+		
+		\PYGdefault{n}{sigma}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{]} \PYGdefault{o}{/=} \PYGdefault{n}{N\PYGdefaultZus{}R}\PYGdefault{p}{;}
+		\PYGdefault{n}{s3}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{]} \PYGdefault{o}{/=} \PYGdefault{n}{N\PYGdefaultZus{}R}\PYGdefault{p}{;}
+		\PYGdefault{n}{s4}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{]} \PYGdefault{o}{/=} \PYGdefault{n}{N\PYGdefaultZus{}R}\PYGdefault{p}{;}
+	
+		\PYGdefault{n}{s3}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{]} \PYGdefault{o}{/=} \PYGdefault{n}{pow}\PYGdefault{p}{(}\PYGdefault{n}{sigma}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{],} \PYGdefault{l+m+mf}{3.0}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{2.0}\PYGdefault{p}{);}
+		\PYGdefault{n}{s4}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{]} \PYGdefault{o}{/=} \PYGdefault{n}{pow}\PYGdefault{p}{(}\PYGdefault{n}{sigma}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{],} \PYGdefault{l+m+mi}{2}\PYGdefault{p}{);}
+
+		\PYGdefault{n}{s4}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{]} \PYGdefault{o}{\PYGdefaultZhy{}=} \PYGdefault{l+m+mf}{3.0}\PYGdefault{p}{;}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{c+c1}{// Writes results to output files}
+	\PYGdefault{n}{ofstream} \PYGdefault{n}{sigma\PYGdefaultZus{}data}\PYGdefault{p}{,} \PYGdefault{n}{s3\PYGdefaultZus{}data}\PYGdefault{p}{,} \PYGdefault{n}{s4\PYGdefaultZus{}data}\PYGdefault{p}{;}
+	\PYGdefault{n}{sigma\PYGdefaultZus{}data}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}prob3\PYGdefaultZus{}sigma.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{s3\PYGdefaultZus{}data}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}prob3\PYGdefaultZus{}s3.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{s4\PYGdefaultZus{}data}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}prob3\PYGdefaultZus{}s4.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{;} \PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZlt{}=}\PYGdefault{n}{n\PYGdefaultZus{}max}\PYGdefault{p}{;} \PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{++}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{n}{sigma\PYGdefaultZus{}data} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{n\PYGdefaultZus{}steps} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{sigma}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{]} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+		\PYGdefault{n}{s3\PYGdefaultZus{}data} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{n\PYGdefaultZus{}steps} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{s3}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{]} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+		\PYGdefault{n}{s4\PYGdefaultZus{}data} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{n\PYGdefaultZus{}steps} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{s4}\PYGdefault{p}{[}\PYGdefault{n}{n\PYGdefaultZus{}steps}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{]} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{n}{sigma\PYGdefaultZus{}data}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();} \PYGdefault{n}{s3\PYGdefaultZus{}data}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();} \PYGdefault{n}{s4\PYGdefaultZus{}data}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+
+	\PYGdefault{k}{return} \PYGdefault{l+m+mi}{0}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Random number generator}
+\PYGdefault{k+kt}{int} \PYGdefault{n+nf}{random\PYGdefaultZus{}number}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{x\PYGdefaultZus{}in}\PYGdefault{p}{)}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k+kt}{int} \PYGdefault{n}{x\PYGdefaultZus{}out}\PYGdefault{p}{,} \PYGdefault{n}{a}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{9301}\PYGdefault{p}{,} \PYGdefault{n}{c}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{49297}\PYGdefault{p}{,} \PYGdefault{n}{m}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{233280}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{x\PYGdefaultZus{}out}\PYGdefault{o}{=} \PYGdefault{n}{a}\PYGdefault{o}{*}\PYGdefault{n}{x\PYGdefaultZus{}in} \PYGdefault{o}{+} \PYGdefault{n}{c}\PYGdefault{p}{;}
+	\PYGdefault{n}{x\PYGdefaultZus{}out} \PYGdefault{o}{=} \PYGdefault{n}{x\PYGdefaultZus{}out} \PYGdefault{o}{\PYGdefaultZpc{}} \PYGdefault{n}{m}\PYGdefault{p}{;}
+	
+	\PYGdefault{k}{return} \PYGdefault{n}{x\PYGdefaultZus{}out}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Gives sign (direction) of step}
+\PYGdefault{k+kt}{int} \PYGdefault{n+nf}{step\PYGdefaultZus{}sign}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{num}\PYGdefault{p}{)}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k+kt}{double} \PYGdefault{n}{q}\PYGdefault{p}{,} \PYGdefault{n}{m}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{233280}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{q} \PYGdefault{o}{=} \PYGdefault{n}{abs}\PYGdefault{p}{(((}\PYGdefault{k+kt}{double}\PYGdefault{p}{)}\PYGdefault{n}{num}\PYGdefault{p}{)}\PYGdefault{o}{/}\PYGdefault{n}{m}\PYGdefault{p}{);}
+	\PYGdefault{k}{if}\PYGdefault{p}{(}\PYGdefault{n}{q}\PYGdefault{o}{\PYGdefaultZlt{}}\PYGdefault{l+m+mf}{0.5}\PYGdefault{p}{)} \PYGdefault{k}{return} \PYGdefault{l+m+mi}{0}\PYGdefault{p}{;}
+	\PYGdefault{k}{else} \PYGdefault{k}{return} \PYGdefault{l+m+mi}{1}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+\end{Verbatim}

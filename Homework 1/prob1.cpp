@@ -1,4 +1,4 @@
-// Marco Muzio - homework 1 Problem 1 Source Code
+// Marco Muzio - Homework 1 Problem 1 Source Code
 
 #include<iostream>
 #include<cmath>
@@ -84,7 +84,7 @@ int main()
 	exp0d1.open("exp0d1_extrap_diff.txt");
 	exp10.open("exp10_extrap_diff.txt");
 
-	for(float h=1.0; h>=e_m/10.0; h /= 10.0)
+	for(float h=10.0; h>=e_m/10.0; h /= 10.0)
 	{
 		x = 0.1;
 		derivative = extrap_diff(x, h, cos);

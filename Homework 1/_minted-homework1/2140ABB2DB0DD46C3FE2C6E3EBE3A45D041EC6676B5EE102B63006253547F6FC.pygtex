@@ -1,0 +1,49 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c}{\PYGdefaultZsh{}!/bin/sh}
+
+\PYGdefault{c}{\PYGdefaultZsh{}\PYGdefaultZsh{}\PYGdefaultZsh{} Marco Muzio \PYGdefaultZhy{} Homework 1 Problem 3 Script}
+
+\PYGdefault{c}{\PYGdefaultZsh{} Generate data from random walks}
+./prob3
+
+\PYGdefault{c}{\PYGdefaultZsh{}\PYGdefaultZsh{} Plot data}
+
+\PYGdefault{c}{\PYGdefaultZsh{} Plot sigma\PYGdefaultZca{}2}
+gnuplot \PYGdefault{l+s}{\PYGdefaultZlt{}\PYGdefaultZlt{} EOF}
+\PYGdefault{l+s}{set terminal pngcairo enhanced}
+\PYGdefault{l+s}{set encoding utf8}
+\PYGdefault{l+s}{set output \PYGdefaultZsq{}sigma2.png\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set xlabel \PYGdefaultZsq{}n\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set ylabel \PYGdefaultZsq{}\PYGdefaultZob{}/Symbol s\PYGdefaultZcb{}\PYGdefaultZca{}2\PYGdefaultZus{}n\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set autoscale}
+\PYGdefault{l+s}{set nokey}
+\PYGdefault{l+s}{set grid}
+\PYGdefault{l+s}{plot \PYGdefaultZsq{}prob3\PYGdefaultZus{}sigma.txt\PYGdefaultZsq{} with lines}
+\PYGdefault{l+s}{EOF}
+
+\PYGdefault{c}{\PYGdefaultZsh{} Plot s\PYGdefaultZus{}3}
+gnuplot \PYGdefault{l+s}{\PYGdefaultZlt{}\PYGdefaultZlt{} EOF}
+\PYGdefault{l+s}{set terminal pngcairo enhanced}
+\PYGdefault{l+s}{set encoding utf8}
+\PYGdefault{l+s}{set output \PYGdefaultZsq{}s\PYGdefaultZus{}3.png\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set xlabel \PYGdefaultZsq{}n\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set ylabel \PYGdefaultZsq{}s\PYGdefaultZus{}3\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set autoscale}
+\PYGdefault{l+s}{set nokey}
+\PYGdefault{l+s}{set grid}
+\PYGdefault{l+s}{plot \PYGdefaultZsq{}prob3\PYGdefaultZus{}s3.txt\PYGdefaultZsq{} with lines}
+\PYGdefault{l+s}{EOF}
+
+\PYGdefault{c}{\PYGdefaultZsh{} Plot s\PYGdefaultZus{}4}
+gnuplot \PYGdefault{l+s}{\PYGdefaultZlt{}\PYGdefaultZlt{} EOF}
+\PYGdefault{l+s}{set terminal pngcairo enhanced}
+\PYGdefault{l+s}{set encoding utf8}
+\PYGdefault{l+s}{set output \PYGdefaultZsq{}s\PYGdefaultZus{}4.png\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set xlabel \PYGdefaultZsq{}n\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set ylabel \PYGdefaultZsq{}s\PYGdefaultZus{}4\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set autoscale}
+\PYGdefault{l+s}{set nokey}
+\PYGdefault{l+s}{set grid}
+\PYGdefault{l+s}{plot \PYGdefaultZsq{}prob3\PYGdefaultZus{}s4.txt\PYGdefaultZsq{} with lines}
+\PYGdefault{l+s}{EOF}
+\end{Verbatim}

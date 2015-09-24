@@ -11,12 +11,8 @@ using namespace std;
 float trap_rule(float lower, float upper, int N_points);
 float simps_rule(float lower, float upper, int N_points);
 float GL_quad(float lower, float upper, int N_points);
-float Legendre(int n, float x);
-float dLegendre(int n, float x);
 float Leg_roots(int n, int root);
 float Leg_weights(int n, int root);
-int factorial(int n);
-int binomial(int n, int k);
 float rel_error(float integral);
 
 int main()
@@ -30,7 +26,7 @@ int main()
 	GL.open("GL_quadrature.txt");
 
 	// Trapezoid rule calculations
-	for(int i=2; i<=1024; i *= 2)
+	for(int i=2; i<=pow(2, 25); i *= 2)
 	{
 		integral = trap_rule(0.0, 1.0, i);
 
@@ -40,9 +36,9 @@ int main()
 	trap.close();
 
 	// Simpson's rule calculations
-	for(int i=2; i<=1024; i *= 2)
+	for(int i=2; i<=pow(2, 20); i *= 2)
 	{
-		integral = simps_rule(0.0, 1.0, i);
+		integral = simps_rule(0.0, 1.0, i+1);
 
 		simps << i << "\t" << integral << "\t" << rel_error(integral) << endl;
 	}
@@ -50,7 +46,7 @@ int main()
 	simps.close();
 
 	// GL quadrature calculations
-	for(int i=2; i<8; i++)
+	for(int i=2; i<9; i++)
 	{
 		integral = GL_quad(0.0, 1.0, i);
 
@@ -71,7 +67,7 @@ float trap_rule(float lower, float upper, int N_points)
 	
 	integral = 0.5*exp(-lower) + 0.5*exp(-upper);
 
-	for(int i=2; i<N_points-1; i++)
+	for(int i=2; i<N_points; i++)
 	{
 		x = lower + (i-1)*h;
 		integral += exp(-x);
@@ -99,12 +95,16 @@ float simps_rule(float lower, float upper, int N_points)
 		integral += 4.0*exp(-x_even)/3.0 + 2.0*exp(-x_odd)/3.0;
 	}
 
+	x_even = lower + (N_points-2.0)*h;
+
+	integral += 4.0*exp(-x_even)/3.0;
+
 	integral *= h;
 
 	return integral;
 }
 
-// Gauss-Legendre quadrature algorithm to calculate integral of exp(-t) -- only valid for N_points<8
+// Gauss-Legendre quadrature algorithm to calculate integral of exp(-t) -- only valid for N_points<9
 float GL_quad(float lower, float upper, int N_points)
 {
 	float integral, weight, transformation_factor, f;
@@ -192,6 +192,20 @@ float Leg_roots(int n, int root)
 				case 6: return 0.741531185599394;
 				case 7: return 0.949107912342759;
 			}
+
+		case 8:
+
+			switch(root)
+			{
+				case 1: return -0.960289856497536;
+				case 2: return -0.796666477413627;
+				case 3: return -0.525532409916329;
+				case 4: return -0.183434642495650;
+				case 5: return 0.183434642495650;
+				case 6: return 0.525532409916329;
+				case 7: return 0.796666477413627;
+				case 8: return 0.960289856497536;
+			}
 	}
 
 	return 0;
@@ -264,21 +278,23 @@ float Leg_weights(int n, int root)
 				case 6: return 0.279705391489277;
 				case 7: return 0.129484966168870;
 			}
+
+		case(8):
+
+			switch(root)
+			{
+				case 1: return 0.101228536290376;
+				case 2: return 0.222381034453374;
+				case 3: return 0.313706645877887;
+				case 4: return 0.362683783378362;
+				case 5: return 0.362683783378362;
+				case 6: return 0.313706645877887;
+				case 7: return 0.222381034453374;
+				case 8: return 0.101228536290376;
+			}
 	}
 
 	return 0;
-}
-
-// Factorial function for definition of binomial coefficients
-int factorial(int n)
-{
-	  return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
-}
-
-// Binomial coefficients function for definition of Legendre polynomials
-int binomial(int n, int k)
-{
-	return factorial(n)/factorial(k)/factorial(n-k);
 }
 
 // Relative error in calculated integral

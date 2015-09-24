@@ -1,0 +1,164 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c+c1}{// Marco Muzio \PYGdefaultZhy{} Homework 1 Problem 1 Source Code}
+
+\PYGdefault{c+cp}{\PYGdefaultZsh{}include\PYGdefaultZlt{}iostream\PYGdefaultZgt{}}
+\PYGdefault{c+cp}{\PYGdefaultZsh{}include\PYGdefaultZlt{}cmath\PYGdefaultZgt{}}
+\PYGdefault{c+cp}{\PYGdefaultZsh{}include\PYGdefaultZlt{}fstream\PYGdefaultZgt{}}
+
+\PYGdefault{n}{using} \PYGdefault{n}{namespace} \PYGdefault{n}{std}\PYGdefault{p}{;}
+
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{forward\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{f}\PYGdefault{p}{)(}\PYGdefault{k+kt}{float}\PYGdefault{p}{));}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{central\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{f}\PYGdefault{p}{)(}\PYGdefault{k+kt}{float}\PYGdefault{p}{));}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{extrap\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{f}\PYGdefault{p}{)(}\PYGdefault{k+kt}{float}\PYGdefault{p}{));}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{df}\PYGdefault{p}{)(}\PYGdefault{k+kt}{float}\PYGdefault{p}{));}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{neg\PYGdefaultZus{}sin}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{x}\PYGdefault{p}{);}
+
+\PYGdefault{k+kt}{int} \PYGdefault{n+nf}{main}\PYGdefault{p}{()}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k}{const} \PYGdefault{k+kt}{float} \PYGdefault{n}{e\PYGdefaultZus{}m} \PYGdefault{o}{=} \PYGdefault{l+m+mf}{1.0e\PYGdefaultZhy{}7}\PYGdefault{p}{;} \PYGdefault{c+c1}{// Approximate machine precision for SP}
+	\PYGdefault{k+kt}{float} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{x}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{ofstream} \PYGdefault{n}{cos0d1}\PYGdefault{p}{,} \PYGdefault{n}{cos10}\PYGdefault{p}{,} \PYGdefault{n}{exp0d1}\PYGdefault{p}{,} \PYGdefault{n}{exp10}\PYGdefault{p}{;}
+
+	\PYGdefault{c+c1}{// Forward difference calculations}
+
+	\PYGdefault{n}{cos0d1}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}cos0d1\PYGdefaultZus{}forward\PYGdefaultZus{}diff.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{cos10}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}cos10\PYGdefaultZus{}forward\PYGdefaultZus{}diff.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{exp0d1}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}exp0d1\PYGdefaultZus{}forward\PYGdefaultZus{}diff.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{exp10}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}exp10\PYGdefaultZus{}forward\PYGdefaultZus{}diff.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{h}\PYGdefault{o}{=}\PYGdefault{l+m+mf}{1.0}\PYGdefault{p}{;} \PYGdefault{n}{h}\PYGdefault{o}{\PYGdefaultZgt{}=}\PYGdefault{n}{e\PYGdefaultZus{}m}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{10.0}\PYGdefault{p}{;} \PYGdefault{n}{h} \PYGdefault{o}{/=} \PYGdefault{l+m+mf}{10.0}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{n}{x} \PYGdefault{o}{=} \PYGdefault{l+m+mf}{0.1}\PYGdefault{p}{;}
+		\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{n}{forward\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{n}{cos}\PYGdefault{p}{);}
+		\PYGdefault{n}{cos0d1} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{h} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{neg\PYGdefaultZus{}sin}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+		
+		\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{n}{forward\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h} \PYGdefault{p}{,} \PYGdefault{n}{exp}\PYGdefault{p}{);}
+		\PYGdefault{n}{exp0d1} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{h} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{exp}\PYGdefault{p}{)}\PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+
+		\PYGdefault{n}{x} \PYGdefault{o}{=} \PYGdefault{l+m+mf}{10.0}\PYGdefault{p}{;}
+		\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{n}{forward\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{n}{cos}\PYGdefault{p}{);}
+		\PYGdefault{n}{cos10} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{h} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{neg\PYGdefaultZus{}sin}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+
+		\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{n}{forward\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{n}{exp}\PYGdefault{p}{);}
+		\PYGdefault{n}{exp10} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{h} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{exp}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{n}{cos0d1}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+	\PYGdefault{n}{cos10}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+	\PYGdefault{n}{exp0d1}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+	\PYGdefault{n}{exp10}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+
+	\PYGdefault{c+c1}{// Central difference calculations}
+
+	\PYGdefault{n}{cos0d1}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}cos0d1\PYGdefaultZus{}central\PYGdefaultZus{}diff.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{cos10}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}cos10\PYGdefaultZus{}central\PYGdefaultZus{}diff.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{exp0d1}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}exp0d1\PYGdefaultZus{}central\PYGdefaultZus{}diff.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{exp10}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}exp10\PYGdefaultZus{}central\PYGdefaultZus{}diff.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{h}\PYGdefault{o}{=}\PYGdefault{l+m+mf}{1.0}\PYGdefault{p}{;} \PYGdefault{n}{h}\PYGdefault{o}{\PYGdefaultZgt{}=}\PYGdefault{n}{e\PYGdefaultZus{}m}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{10.0}\PYGdefault{p}{;} \PYGdefault{n}{h} \PYGdefault{o}{/=} \PYGdefault{l+m+mf}{10.0}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{n}{x} \PYGdefault{o}{=} \PYGdefault{l+m+mf}{0.1}\PYGdefault{p}{;}
+		\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{n}{central\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{n}{cos}\PYGdefault{p}{);}
+		\PYGdefault{n}{cos0d1} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{h} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{neg\PYGdefaultZus{}sin}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+		
+		\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{n}{central\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h} \PYGdefault{p}{,} \PYGdefault{n}{exp}\PYGdefault{p}{);}
+		\PYGdefault{n}{exp0d1} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{h} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{exp}\PYGdefault{p}{)}\PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+
+		\PYGdefault{n}{x} \PYGdefault{o}{=} \PYGdefault{l+m+mf}{10.0}\PYGdefault{p}{;}
+		\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{n}{central\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{n}{cos}\PYGdefault{p}{);}
+		\PYGdefault{n}{cos10} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{h} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{neg\PYGdefaultZus{}sin}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+
+		\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{n}{central\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{n}{exp}\PYGdefault{p}{);}
+		\PYGdefault{n}{exp10} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{h} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{exp}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{n}{cos0d1}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+	\PYGdefault{n}{cos10}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+	\PYGdefault{n}{exp0d1}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+	\PYGdefault{n}{exp10}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+	
+	\PYGdefault{c+c1}{// Extrapolated difference calculations}
+
+	\PYGdefault{n}{cos0d1}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}cos0d1\PYGdefaultZus{}extrap\PYGdefaultZus{}diff.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{cos10}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}cos10\PYGdefaultZus{}extrap\PYGdefaultZus{}diff.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{exp0d1}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}exp0d1\PYGdefaultZus{}extrap\PYGdefaultZus{}diff.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{exp10}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}exp10\PYGdefaultZus{}extrap\PYGdefaultZus{}diff.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{h}\PYGdefault{o}{=}\PYGdefault{l+m+mf}{10.0}\PYGdefault{p}{;} \PYGdefault{n}{h}\PYGdefault{o}{\PYGdefaultZgt{}=}\PYGdefault{n}{e\PYGdefaultZus{}m}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{10.0}\PYGdefault{p}{;} \PYGdefault{n}{h} \PYGdefault{o}{/=} \PYGdefault{l+m+mf}{10.0}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{n}{x} \PYGdefault{o}{=} \PYGdefault{l+m+mf}{0.1}\PYGdefault{p}{;}
+		\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{n}{extrap\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{n}{cos}\PYGdefault{p}{);}
+		\PYGdefault{n}{cos0d1} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{h} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{neg\PYGdefaultZus{}sin}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+		
+		\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{n}{extrap\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h} \PYGdefault{p}{,} \PYGdefault{n}{exp}\PYGdefault{p}{);}
+		\PYGdefault{n}{exp0d1} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{h} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{exp}\PYGdefault{p}{)}\PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+
+		\PYGdefault{n}{x} \PYGdefault{o}{=} \PYGdefault{l+m+mf}{10.0}\PYGdefault{p}{;}
+		\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{n}{extrap\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{n}{cos}\PYGdefault{p}{);}
+		\PYGdefault{n}{cos10} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{h} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{neg\PYGdefaultZus{}sin}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+
+		\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{n}{extrap\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{n}{exp}\PYGdefault{p}{);}
+		\PYGdefault{n}{exp10} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{h} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{n}{exp}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{n}{cos0d1}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+	\PYGdefault{n}{cos10}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+	\PYGdefault{n}{exp0d1}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+	\PYGdefault{n}{exp10}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+
+	\PYGdefault{k}{return} \PYGdefault{l+m+mi}{0}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Forward difference algorithm for calculating f\PYGdefaultZsq{}}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{forward\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{f}\PYGdefault{p}{)(}\PYGdefault{k+kt}{float}\PYGdefault{p}{))}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k+kt}{float} \PYGdefault{n}{derivative}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{f}\PYGdefault{p}{)(}\PYGdefault{n}{x}\PYGdefault{o}{+}\PYGdefault{n}{h}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{f}\PYGdefault{p}{)(}\PYGdefault{n}{x}\PYGdefault{p}{);}
+	\PYGdefault{n}{derivative} \PYGdefault{o}{/=} \PYGdefault{n}{h}\PYGdefault{p}{;}
+
+	\PYGdefault{k}{return} \PYGdefault{n}{derivative}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Central difference algorithm for calculating f\PYGdefaultZsq{}}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{central\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{f}\PYGdefault{p}{)(}\PYGdefault{k+kt}{float}\PYGdefault{p}{))}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k+kt}{float} \PYGdefault{n}{derivative}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{f}\PYGdefault{p}{)(}\PYGdefault{n}{x}\PYGdefault{o}{+}\PYGdefault{n}{h}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{f}\PYGdefault{p}{)(}\PYGdefault{n}{x}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{n}{h}\PYGdefault{p}{);}
+	\PYGdefault{n}{derivative} \PYGdefault{o}{/=} \PYGdefault{l+m+mf}{2.0}\PYGdefault{o}{*}\PYGdefault{n}{h}\PYGdefault{p}{;}
+
+	\PYGdefault{k}{return} \PYGdefault{n}{derivative}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Extrapolated difference algorithm for calculating f\PYGdefaultZsq{}}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{extrap\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{f}\PYGdefault{p}{)(}\PYGdefault{k+kt}{float}\PYGdefault{p}{))}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k+kt}{float} \PYGdefault{n}{derivative}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{derivative} \PYGdefault{o}{=} \PYGdefault{l+m+mf}{4.0}\PYGdefault{o}{*}\PYGdefault{n}{central\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{4.0}\PYGdefault{p}{,} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{f}\PYGdefault{p}{))} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{n}{central\PYGdefaultZus{}diff}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{n}{h}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{2.0}\PYGdefault{p}{,} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{f}\PYGdefault{p}{));}
+	\PYGdefault{n}{derivative} \PYGdefault{o}{/=} \PYGdefault{l+m+mf}{3.0}\PYGdefault{p}{;}
+
+	\PYGdefault{k}{return} \PYGdefault{n}{derivative}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Relative error}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{x}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{derivative}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{df}\PYGdefault{p}{)(}\PYGdefault{k+kt}{float}\PYGdefault{p}{))}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k+kt}{float} \PYGdefault{n}{error}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{error} \PYGdefault{o}{=} \PYGdefault{n}{derivative} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{df}\PYGdefault{p}{)(}\PYGdefault{n}{x}\PYGdefault{p}{);}
+	\PYGdefault{n}{error} \PYGdefault{o}{/=} \PYGdefault{p}{(}\PYGdefault{o}{*}\PYGdefault{n}{df}\PYGdefault{p}{)(}\PYGdefault{n}{x}\PYGdefault{p}{);}
+	\PYGdefault{n}{error} \PYGdefault{o}{=} \PYGdefault{n}{abs}\PYGdefault{p}{(}\PYGdefault{n}{error}\PYGdefault{p}{);}
+
+	\PYGdefault{k}{return} \PYGdefault{n}{error}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Negative of sin(x) so that the derivative of cos(x) can be passed to the above functions}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{neg\PYGdefaultZus{}sin}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{x}\PYGdefault{p}{)}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{1.0}\PYGdefault{o}{*}\PYGdefault{n}{sin}\PYGdefault{p}{(}\PYGdefault{n}{x}\PYGdefault{p}{);}
+
+\PYGdefault{p}{\PYGdefaultZcb{}}
+\end{Verbatim}

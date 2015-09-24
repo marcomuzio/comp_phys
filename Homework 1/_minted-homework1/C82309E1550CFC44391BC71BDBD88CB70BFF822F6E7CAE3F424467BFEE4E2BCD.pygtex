@@ -1,0 +1,55 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c}{\PYGdefaultZsh{}!/bin/sh}
+
+\PYGdefault{c}{\PYGdefaultZsh{}\PYGdefaultZsh{}\PYGdefaultZsh{} Marco Muzio \PYGdefaultZhy{} Homework 1 Problem 2 Script}
+
+\PYGdefault{c}{\PYGdefaultZsh{} Runs prob2 program to generate data}
+./prob2
+
+\PYGdefault{c}{\PYGdefaultZsh{} Plots results on log\PYGdefaultZhy{}log plots}
+
+\PYGdefault{c}{\PYGdefaultZsh{}\PYGdefaultZsh{} Plot data for trapezoid rule}
+gnuplot \PYGdefault{l+s}{\PYGdefaultZlt{}\PYGdefaultZlt{} EOF}
+\PYGdefault{l+s}{set terminal pngcairo enhanced}
+\PYGdefault{l+s}{set encoding utf8}
+\PYGdefault{l+s}{set output \PYGdefaultZsq{}trapezoid\PYGdefaultZus{}rule.png\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set title \PYGdefaultZsq{}Relative Error \PYGdefaultZob{}/Symbol e\PYGdefaultZcb{}\PYGdefaultZus{}r vs. N Abscissas for Trapezoid Rule Algorithm\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set xlabel \PYGdefaultZsq{}N\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set ylabel \PYGdefaultZsq{}\PYGdefaultZob{}/Symbol e\PYGdefaultZcb{}\PYGdefaultZus{}r\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set logscale xy}
+\PYGdefault{l+s}{set format xy \PYGdefaultZsq{}1e\PYGdefaultZpc{}T\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set grid}
+\PYGdefault{l+s}{set nokey}
+\PYGdefault{l+s}{plot \PYGdefaultZsq{}trapezoid\PYGdefaultZus{}rule.txt\PYGdefaultZsq{} using 1:3 with lines}
+\PYGdefault{l+s}{EOF}
+
+\PYGdefault{c}{\PYGdefaultZsh{}\PYGdefaultZsh{} Plot data for Simpson\PYGdefaultZsq{}s rule}
+gnuplot \PYGdefault{l+s}{\PYGdefaultZlt{}\PYGdefaultZlt{} EOF}
+\PYGdefault{l+s}{set terminal pngcairo enhanced}
+\PYGdefault{l+s}{set encoding utf8}
+\PYGdefault{l+s}{set output \PYGdefaultZsq{}simpsons\PYGdefaultZus{}rule.png\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set title \PYGdefaultZdq{}Relative Error \PYGdefaultZob{}/Symbol e\PYGdefaultZcb{}\PYGdefaultZus{}r vs. N Abscissas for Simpson\PYGdefaultZsq{}s Rule Algorithm\PYGdefaultZdq{}}
+\PYGdefault{l+s}{set xlabel \PYGdefaultZsq{}N\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set ylabel \PYGdefaultZsq{}\PYGdefaultZob{}/Symbol e\PYGdefaultZcb{}\PYGdefaultZus{}r\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set logscale xy}
+\PYGdefault{l+s}{set format xy \PYGdefaultZsq{}1e\PYGdefaultZpc{}T\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set grid}
+\PYGdefault{l+s}{set nokey}
+\PYGdefault{l+s}{plot \PYGdefaultZsq{}simpsons\PYGdefaultZus{}rule.txt\PYGdefaultZsq{} using 1:3 with lines}
+\PYGdefault{l+s}{EOF}
+
+\PYGdefault{c}{\PYGdefaultZsh{}\PYGdefaultZsh{} Plot data for Gauss\PYGdefaultZhy{}Legendre quadrature}
+gnuplot \PYGdefault{l+s}{\PYGdefaultZlt{}\PYGdefaultZlt{} EOF}
+\PYGdefault{l+s}{set terminal pngcairo enhanced}
+\PYGdefault{l+s}{set encoding utf8}
+\PYGdefault{l+s}{set output \PYGdefaultZsq{}GL\PYGdefaultZus{}quad.png\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set title \PYGdefaultZsq{}Relative Error \PYGdefaultZob{}/Symbol e\PYGdefaultZcb{}\PYGdefaultZus{}r vs. N Abscissas for Gauss\PYGdefaultZhy{}Legendre Quadrature Algorithm\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set xlabel \PYGdefaultZsq{}N\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set ylabel \PYGdefaultZsq{}\PYGdefaultZob{}/Symbol e\PYGdefaultZcb{}\PYGdefaultZus{}r\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set logscale xy}
+\PYGdefault{l+s}{set format xy \PYGdefaultZsq{}1e\PYGdefaultZpc{}T\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set grid}
+\PYGdefault{l+s}{set nokey}
+\PYGdefault{l+s}{plot \PYGdefaultZsq{}GL\PYGdefaultZus{}quadrature.txt\PYGdefaultZsq{} using 1:3 with lines}
+\PYGdefault{l+s}{EOF}
+\end{Verbatim}

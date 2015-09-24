@@ -1,0 +1,312 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c+c1}{// Marco Muzio \PYGdefaultZhy{} Homework 1 Problem 2 Source Code}
+
+\PYGdefault{c+cp}{\PYGdefaultZsh{}include\PYGdefaultZlt{}iostream\PYGdefaultZgt{}}
+\PYGdefault{c+cp}{\PYGdefaultZsh{}include\PYGdefaultZlt{}cmath\PYGdefaultZgt{}}
+\PYGdefault{c+cp}{\PYGdefaultZsh{}include\PYGdefaultZlt{}fstream\PYGdefaultZgt{}}
+
+\PYGdefault{c+cp}{\PYGdefaultZsh{}define pi 3.14159265}
+
+\PYGdefault{n}{using} \PYGdefault{n}{namespace} \PYGdefault{n}{std}\PYGdefault{p}{;}
+
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{trap\PYGdefaultZus{}rule}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{lower}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{upper}\PYGdefault{p}{,} \PYGdefault{k+kt}{int} \PYGdefault{n}{N\PYGdefaultZus{}points}\PYGdefault{p}{);}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{simps\PYGdefaultZus{}rule}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{lower}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{upper}\PYGdefault{p}{,} \PYGdefault{k+kt}{int} \PYGdefault{n}{N\PYGdefaultZus{}points}\PYGdefault{p}{);}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{GL\PYGdefaultZus{}quad}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{lower}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{upper}\PYGdefault{p}{,} \PYGdefault{k+kt}{int} \PYGdefault{n}{N\PYGdefaultZus{}points}\PYGdefault{p}{);}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{Leg\PYGdefaultZus{}roots}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{n}\PYGdefault{p}{,} \PYGdefault{k+kt}{int} \PYGdefault{n}{root}\PYGdefault{p}{);}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{Leg\PYGdefaultZus{}weights}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{n}\PYGdefault{p}{,} \PYGdefault{k+kt}{int} \PYGdefault{n}{root}\PYGdefault{p}{);}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{integral}\PYGdefault{p}{);}
+
+\PYGdefault{k+kt}{int} \PYGdefault{n+nf}{main}\PYGdefault{p}{()}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k+kt}{float} \PYGdefault{n}{integral}\PYGdefault{p}{;}
+	
+	\PYGdefault{n}{ofstream} \PYGdefault{n}{trap}\PYGdefault{p}{,} \PYGdefault{n}{simps}\PYGdefault{p}{,} \PYGdefault{n}{GL}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{trap}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}trapezoid\PYGdefaultZus{}rule.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{simps}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}simpsons\PYGdefaultZus{}rule.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+	\PYGdefault{n}{GL}\PYGdefault{p}{.}\PYGdefault{n}{open}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}GL\PYGdefaultZus{}quadrature.txt\PYGdefaultZdq{}}\PYGdefault{p}{);}
+
+	\PYGdefault{c+c1}{// Trapezoid rule calculations}
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{i}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{2}\PYGdefault{p}{;} \PYGdefault{n}{i}\PYGdefault{o}{\PYGdefaultZlt{}=}\PYGdefault{n}{pow}\PYGdefault{p}{(}\PYGdefault{l+m+mi}{2}\PYGdefault{p}{,} \PYGdefault{l+m+mi}{25}\PYGdefault{p}{);} \PYGdefault{n}{i} \PYGdefault{o}{*=} \PYGdefault{l+m+mi}{2}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{n}{integral} \PYGdefault{o}{=} \PYGdefault{n}{trap\PYGdefaultZus{}rule}\PYGdefault{p}{(}\PYGdefault{l+m+mf}{0.0}\PYGdefault{p}{,} \PYGdefault{l+m+mf}{1.0}\PYGdefault{p}{,} \PYGdefault{n}{i}\PYGdefault{p}{);}
+
+		\PYGdefault{n}{trap} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{i} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{integral} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{integral}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+	
+	\PYGdefault{n}{trap}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+
+	\PYGdefault{c+c1}{// Simpson\PYGdefaultZsq{}s rule calculations}
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{i}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{2}\PYGdefault{p}{;} \PYGdefault{n}{i}\PYGdefault{o}{\PYGdefaultZlt{}=}\PYGdefault{n}{pow}\PYGdefault{p}{(}\PYGdefault{l+m+mi}{2}\PYGdefault{p}{,} \PYGdefault{l+m+mi}{20}\PYGdefault{p}{);} \PYGdefault{n}{i} \PYGdefault{o}{*=} \PYGdefault{l+m+mi}{2}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{n}{integral} \PYGdefault{o}{=} \PYGdefault{n}{simps\PYGdefaultZus{}rule}\PYGdefault{p}{(}\PYGdefault{l+m+mf}{0.0}\PYGdefault{p}{,} \PYGdefault{l+m+mf}{1.0}\PYGdefault{p}{,} \PYGdefault{n}{i}\PYGdefault{o}{+}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{);}
+
+		\PYGdefault{n}{simps} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{i} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{integral} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{integral}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{n}{simps}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+
+	\PYGdefault{c+c1}{// GL quadrature calculations}
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{i}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{2}\PYGdefault{p}{;} \PYGdefault{n}{i}\PYGdefault{o}{\PYGdefaultZlt{}}\PYGdefault{l+m+mi}{9}\PYGdefault{p}{;} \PYGdefault{n}{i}\PYGdefault{o}{++}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{n}{integral} \PYGdefault{o}{=} \PYGdefault{n}{GL\PYGdefaultZus{}quad}\PYGdefault{p}{(}\PYGdefault{l+m+mf}{0.0}\PYGdefault{p}{,} \PYGdefault{l+m+mf}{1.0}\PYGdefault{p}{,} \PYGdefault{n}{i}\PYGdefault{p}{);}
+
+		\PYGdefault{n}{GL} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{i} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{integral} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{l+s}{\PYGdefaultZdq{}}\PYGdefault{l+s+se}{\PYGdefaultZbs{}t}\PYGdefault{l+s}{\PYGdefaultZdq{}} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{n}{integral}\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZlt{}} \PYGdefault{n}{endl}\PYGdefault{p}{;}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{n}{GL}\PYGdefault{p}{.}\PYGdefault{n}{close}\PYGdefault{p}{();}
+
+	\PYGdefault{k}{return} \PYGdefault{l+m+mi}{0}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Trapezoid rule algorithm to calculate integral of exp(\PYGdefaultZhy{}t)}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{trap\PYGdefaultZus{}rule}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{lower}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{upper}\PYGdefault{p}{,} \PYGdefault{k+kt}{int} \PYGdefault{n}{N\PYGdefaultZus{}points}\PYGdefault{p}{)}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k+kt}{float} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{n}{integral}\PYGdefault{p}{,} \PYGdefault{n}{x}\PYGdefault{p}{;} 
+	
+	\PYGdefault{n}{h} \PYGdefault{o}{=} \PYGdefault{p}{(}\PYGdefault{n}{upper} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{n}{lower}\PYGdefault{p}{)}\PYGdefault{o}{/}\PYGdefault{p}{(}\PYGdefault{n}{N\PYGdefaultZus{}points} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{l+m+mf}{1.0}\PYGdefault{p}{);}
+	
+	\PYGdefault{n}{integral} \PYGdefault{o}{=} \PYGdefault{l+m+mf}{0.5}\PYGdefault{o}{*}\PYGdefault{n}{exp}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{n}{lower}\PYGdefault{p}{)} \PYGdefault{o}{+} \PYGdefault{l+m+mf}{0.5}\PYGdefault{o}{*}\PYGdefault{n}{exp}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{n}{upper}\PYGdefault{p}{);}
+
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{i}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{2}\PYGdefault{p}{;} \PYGdefault{n}{i}\PYGdefault{o}{\PYGdefaultZlt{}}\PYGdefault{n}{N\PYGdefaultZus{}points}\PYGdefault{p}{;} \PYGdefault{n}{i}\PYGdefault{o}{++}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{n}{x} \PYGdefault{o}{=} \PYGdefault{n}{lower} \PYGdefault{o}{+} \PYGdefault{p}{(}\PYGdefault{n}{i}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{)}\PYGdefault{o}{*}\PYGdefault{n}{h}\PYGdefault{p}{;}
+		\PYGdefault{n}{integral} \PYGdefault{o}{+=} \PYGdefault{n}{exp}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{n}{x}\PYGdefault{p}{);}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{n}{integral} \PYGdefault{o}{*=} \PYGdefault{n}{h}\PYGdefault{p}{;}
+
+	\PYGdefault{k}{return} \PYGdefault{n}{integral}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Simpson\PYGdefaultZsq{}s rule algorithm to calculate integral of exp(\PYGdefaultZhy{}t)}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{simps\PYGdefaultZus{}rule}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{lower}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{upper}\PYGdefault{p}{,} \PYGdefault{k+kt}{int} \PYGdefault{n}{N\PYGdefaultZus{}points}\PYGdefault{p}{)}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k+kt}{float} \PYGdefault{n}{h}\PYGdefault{p}{,} \PYGdefault{n}{integral}\PYGdefault{p}{,} \PYGdefault{n}{x\PYGdefaultZus{}even}\PYGdefault{p}{,} \PYGdefault{n}{x\PYGdefaultZus{}odd}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{h} \PYGdefault{o}{=} \PYGdefault{p}{(}\PYGdefault{n}{upper} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{n}{lower}\PYGdefault{p}{)}\PYGdefault{o}{/}\PYGdefault{p}{(}\PYGdefault{n}{N\PYGdefaultZus{}points} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{l+m+mf}{1.0}\PYGdefault{p}{);}
+
+	\PYGdefault{n}{integral} \PYGdefault{o}{=} \PYGdefault{n}{exp}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{n}{lower}\PYGdefault{p}{)}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{3.0} \PYGdefault{o}{+} \PYGdefault{n}{exp}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{n}{upper}\PYGdefault{p}{)}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{3.0}\PYGdefault{p}{;}
+
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{i}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{2}\PYGdefault{p}{;} \PYGdefault{n}{i}\PYGdefault{o}{\PYGdefaultZlt{}}\PYGdefault{n}{N\PYGdefaultZus{}points}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{;} \PYGdefault{n}{i} \PYGdefault{o}{+=} \PYGdefault{l+m+mi}{2}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{n}{x\PYGdefaultZus{}even} \PYGdefault{o}{=} \PYGdefault{n}{lower} \PYGdefault{o}{+} \PYGdefault{p}{(}\PYGdefault{n}{i}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{)}\PYGdefault{o}{*}\PYGdefault{n}{h}\PYGdefault{p}{;}
+		\PYGdefault{n}{x\PYGdefaultZus{}odd} \PYGdefault{o}{=} \PYGdefault{n}{x\PYGdefaultZus{}even} \PYGdefault{o}{+} \PYGdefault{n}{h}\PYGdefault{p}{;}
+		
+		\PYGdefault{n}{integral} \PYGdefault{o}{+=} \PYGdefault{l+m+mf}{4.0}\PYGdefault{o}{*}\PYGdefault{n}{exp}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{n}{x\PYGdefaultZus{}even}\PYGdefault{p}{)}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{3.0} \PYGdefault{o}{+} \PYGdefault{l+m+mf}{2.0}\PYGdefault{o}{*}\PYGdefault{n}{exp}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{n}{x\PYGdefaultZus{}odd}\PYGdefault{p}{)}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{3.0}\PYGdefault{p}{;}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{n}{x\PYGdefaultZus{}even} \PYGdefault{o}{=} \PYGdefault{n}{lower} \PYGdefault{o}{+} \PYGdefault{p}{(}\PYGdefault{n}{N\PYGdefaultZus{}points}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{2.0}\PYGdefault{p}{)}\PYGdefault{o}{*}\PYGdefault{n}{h}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{integral} \PYGdefault{o}{+=} \PYGdefault{l+m+mf}{4.0}\PYGdefault{o}{*}\PYGdefault{n}{exp}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{n}{x\PYGdefaultZus{}even}\PYGdefault{p}{)}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{3.0}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{integral} \PYGdefault{o}{*=} \PYGdefault{n}{h}\PYGdefault{p}{;}
+
+	\PYGdefault{k}{return} \PYGdefault{n}{integral}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Gauss\PYGdefaultZhy{}Legendre quadrature algorithm to calculate integral of exp(\PYGdefaultZhy{}t) \PYGdefaultZhy{}\PYGdefaultZhy{} only valid for N\PYGdefaultZus{}points\PYGdefaultZlt{}9}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{GL\PYGdefaultZus{}quad}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{lower}\PYGdefault{p}{,} \PYGdefault{k+kt}{float} \PYGdefault{n}{upper}\PYGdefault{p}{,} \PYGdefault{k+kt}{int} \PYGdefault{n}{N\PYGdefaultZus{}points}\PYGdefault{p}{)}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k+kt}{float} \PYGdefault{n}{integral}\PYGdefault{p}{,} \PYGdefault{n}{weight}\PYGdefault{p}{,} \PYGdefault{n}{transformation\PYGdefaultZus{}factor}\PYGdefault{p}{,} \PYGdefault{n}{f}\PYGdefault{p}{;}
+	\PYGdefault{k+kt}{float} \PYGdefault{n}{x}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{integral} \PYGdefault{o}{=} \PYGdefault{l+m+mf}{0.0}\PYGdefault{p}{;}
+
+	\PYGdefault{k}{for}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{i}\PYGdefault{o}{=}\PYGdefault{l+m+mi}{1}\PYGdefault{p}{;} \PYGdefault{n}{i}\PYGdefault{o}{\PYGdefaultZlt{}=}\PYGdefault{n}{N\PYGdefaultZus{}points}\PYGdefault{p}{;} \PYGdefault{n}{i}\PYGdefault{o}{++}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{n}{x} \PYGdefault{o}{=} \PYGdefault{n}{Leg\PYGdefaultZus{}roots}\PYGdefault{p}{(}\PYGdefault{n}{N\PYGdefaultZus{}points}\PYGdefault{p}{,} \PYGdefault{n}{i}\PYGdefault{p}{);}
+		\PYGdefault{n}{weight} \PYGdefault{o}{=} \PYGdefault{n}{Leg\PYGdefaultZus{}weights}\PYGdefault{p}{(}\PYGdefault{n}{N\PYGdefaultZus{}points}\PYGdefault{p}{,} \PYGdefault{n}{i}\PYGdefault{p}{);}
+		\PYGdefault{n}{transformation\PYGdefaultZus{}factor} \PYGdefault{o}{=} \PYGdefault{p}{(}\PYGdefault{n}{upper} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{n}{lower}\PYGdefault{p}{)}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{2.0}\PYGdefault{p}{;}
+		\PYGdefault{n}{f} \PYGdefault{o}{=} \PYGdefault{n}{exp}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{p}{((}\PYGdefault{n}{upper} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{n}{lower}\PYGdefault{p}{)}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{2.0}\PYGdefault{o}{*}\PYGdefault{n}{x} \PYGdefault{o}{+} \PYGdefault{p}{(}\PYGdefault{n}{upper} \PYGdefault{o}{+} \PYGdefault{n}{lower}\PYGdefault{p}{)}\PYGdefault{o}{/}\PYGdefault{l+m+mf}{2.0}\PYGdefault{p}{));}
+
+		\PYGdefault{n}{integral} \PYGdefault{o}{+=} \PYGdefault{n}{f}\PYGdefault{o}{*}\PYGdefault{n}{weight}\PYGdefault{o}{*}\PYGdefault{n}{transformation\PYGdefaultZus{}factor}\PYGdefault{p}{;}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{k}{return} \PYGdefault{n}{integral}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Look\PYGdefaultZhy{}up table of 2nd\PYGdefaultZhy{}7th Legendre polynomial roots}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{Leg\PYGdefaultZus{}roots}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{n}\PYGdefault{p}{,} \PYGdefault{k+kt}{int} \PYGdefault{n}{root}\PYGdefault{p}{)}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{n}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.577350269189626}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.577350269189626}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.774596669241483}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.0}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.774596669241483}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{k}{case} \PYGdefault{l+m+mi}{4}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.86113631159405}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.339981043584856}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.339981043584856}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{4}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.86113631159405}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{k}{case} \PYGdefault{l+m+mi}{5}\PYGdefault{o}{:}
+			
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}	
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.906179845938664}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.538469310105683}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.0}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{4}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.538469310105683}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{5}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.906179845938664}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{k}{case} \PYGdefault{l+m+mi}{6}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.932469514203152}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.661209386466265}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.238619186083197}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{4}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.238619186083197}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{5}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.661209386466265}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{6}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.932469514203152}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{k}{case} \PYGdefault{l+m+mi}{7}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.949107912342759}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.741531185599394}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.405845151377397}\PYGdefault{p}{;} 
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{4}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.000000000000000}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{5}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.405845151377397}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{6}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.741531185599394}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{7}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.949107912342759}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{k}{case} \PYGdefault{l+m+mi}{8}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.960289856497536}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.796666477413627}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.525532409916329}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{4}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{0.183434642495650}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{5}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.183434642495650}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{6}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.525532409916329}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{7}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.796666477413627}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{8}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.960289856497536}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{k}{return} \PYGdefault{l+m+mi}{0}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Look\PYGdefaultZhy{}up table for weights corresponding to roots of 2nd\PYGdefaultZhy{}7th Legendre polynomial}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{Leg\PYGdefaultZus{}weights}\PYGdefault{p}{(}\PYGdefault{k+kt}{int} \PYGdefault{n}{n}\PYGdefault{p}{,} \PYGdefault{k+kt}{int} \PYGdefault{n}{root}\PYGdefault{p}{)}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{n}\PYGdefault{p}{)}
+	\PYGdefault{p}{\PYGdefaultZob{}}
+		\PYGdefault{k}{case}\PYGdefault{p}{(}\PYGdefault{l+m+mi}{2}\PYGdefault{p}{)}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{1.000000000000000}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{1.000000000000000}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{k}{case}\PYGdefault{p}{(}\PYGdefault{l+m+mi}{3}\PYGdefault{p}{)}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.555555555555556}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.888888888888889}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.555555555555556}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{k}{case}\PYGdefault{p}{(}\PYGdefault{l+m+mi}{4}\PYGdefault{p}{)}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.347854845137454}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.652145154862546}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.652145154862546}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{4}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.347854845137454}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{k}{case}\PYGdefault{p}{(}\PYGdefault{l+m+mi}{5}\PYGdefault{p}{)}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.236926885056189}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.478628670499366}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.568888888888889}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{4}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.478628670499366}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{5}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.236926885056189}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{k}{case}\PYGdefault{p}{(}\PYGdefault{l+m+mi}{6}\PYGdefault{p}{)}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.171324492379170}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.360761573048139}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.467913934572691}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{4}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.467913934572691}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{5}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.360761573048139}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{6}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.171324492379170}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{k}{case}\PYGdefault{p}{(}\PYGdefault{l+m+mi}{7}\PYGdefault{p}{)}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.129484966168870}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.279705391489277}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.381830050505119}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{4}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.417959183673469}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{5}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.381830050505119}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{6}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.279705391489277}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{7}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.129484966168870}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+
+		\PYGdefault{k}{case}\PYGdefault{p}{(}\PYGdefault{l+m+mi}{8}\PYGdefault{p}{)}\PYGdefault{o}{:}
+
+			\PYGdefault{k}{switch}\PYGdefault{p}{(}\PYGdefault{n}{root}\PYGdefault{p}{)}
+			\PYGdefault{p}{\PYGdefaultZob{}}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{1}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.101228536290376}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{2}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.222381034453374}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{3}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.313706645877887}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{4}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.362683783378362}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{5}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.362683783378362}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{6}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.313706645877887}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{7}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.222381034453374}\PYGdefault{p}{;}
+				\PYGdefault{k}{case} \PYGdefault{l+m+mi}{8}\PYGdefault{o}{:} \PYGdefault{k}{return} \PYGdefault{l+m+mf}{0.101228536290376}\PYGdefault{p}{;}
+			\PYGdefault{p}{\PYGdefaultZcb{}}
+	\PYGdefault{p}{\PYGdefaultZcb{}}
+
+	\PYGdefault{k}{return} \PYGdefault{l+m+mi}{0}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{// Relative error in calculated integral}
+\PYGdefault{k+kt}{float} \PYGdefault{n+nf}{rel\PYGdefaultZus{}error}\PYGdefault{p}{(}\PYGdefault{k+kt}{float} \PYGdefault{n}{integral}\PYGdefault{p}{)}
+\PYGdefault{p}{\PYGdefaultZob{}}
+	\PYGdefault{k+kt}{float} \PYGdefault{n}{error}\PYGdefault{p}{;}
+
+	\PYGdefault{n}{error} \PYGdefault{o}{=} \PYGdefault{n}{integral} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{p}{(}\PYGdefault{l+m+mf}{1.0}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{n}{exp}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{1.0}\PYGdefault{p}{));}
+	\PYGdefault{n}{error} \PYGdefault{o}{/=} \PYGdefault{l+m+mf}{1.0}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{n}{exp}\PYGdefault{p}{(}\PYGdefault{o}{\PYGdefaultZhy{}}\PYGdefault{l+m+mf}{1.0}\PYGdefault{p}{);}
+	\PYGdefault{n}{error} \PYGdefault{o}{=} \PYGdefault{n}{abs}\PYGdefault{p}{(}\PYGdefault{n}{error}\PYGdefault{p}{);}
+
+	\PYGdefault{k}{return} \PYGdefault{n}{error}\PYGdefault{p}{;}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+\end{Verbatim}

@@ -1,0 +1,61 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c}{\PYGdefaultZsh{}!/bin/sh}
+
+\PYGdefault{c}{\PYGdefaultZsh{}\PYGdefaultZsh{}\PYGdefaultZsh{} Marco Muzio \PYGdefaultZhy{} Homework 1 Problem 1 Script}
+
+\PYGdefault{c}{\PYGdefaultZsh{} Runs prob1 program to generate data}
+./prob1
+
+\PYGdefault{c}{\PYGdefaultZsh{} Plots results on log\PYGdefaultZhy{}log plots}
+
+\PYGdefault{c}{\PYGdefaultZsh{}\PYGdefaultZsh{} Plot data for forward difference algorithm}
+gnuplot \PYGdefault{l+s}{\PYGdefaultZlt{}\PYGdefaultZlt{} EOF}
+\PYGdefault{l+s}{set terminal pngcairo enhanced}
+\PYGdefault{l+s}{set encoding utf8}
+\PYGdefault{l+s}{set output \PYGdefaultZsq{}forward\PYGdefaultZus{}diff.png\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set title \PYGdefaultZsq{}Relative Error \PYGdefaultZob{}/Symbol e\PYGdefaultZcb{}\PYGdefaultZus{}r vs. Step h for Forward Difference Algorithm\PYGdefaultZsq{} }
+\PYGdefault{l+s}{set xlabel \PYGdefaultZsq{}h\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set ylabel \PYGdefaultZsq{}\PYGdefaultZob{}/Symbol e\PYGdefaultZcb{}\PYGdefaultZus{}r\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set logscale xy}
+\PYGdefault{l+s}{set format xy \PYGdefaultZsq{}1e\PYGdefaultZpc{}T\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set grid}
+\PYGdefault{l+s}{plot \PYGdefaultZsq{}cos0d1\PYGdefaultZus{}forward\PYGdefaultZus{}diff.txt\PYGdefaultZsq{} using 1:3 with lines title \PYGdefaultZsq{}Cos(0.1)\PYGdefaultZsq{},\PYGdefaultZbs{}}
+\PYGdefault{l+s}{	 \PYGdefaultZsq{}cos10\PYGdefaultZus{}forward\PYGdefaultZus{}diff.txt\PYGdefaultZsq{} using 1:3 with lines title \PYGdefaultZsq{}Cos(10)\PYGdefaultZsq{}, \PYGdefaultZbs{}}
+\PYGdefault{l+s}{	 \PYGdefaultZsq{}exp0d1\PYGdefaultZus{}forward\PYGdefaultZus{}diff.txt\PYGdefaultZsq{} using 1:3 with lines title \PYGdefaultZsq{}Exp(0.1)\PYGdefaultZsq{}, \PYGdefaultZbs{}}
+\PYGdefault{l+s}{	 \PYGdefaultZsq{}exp10\PYGdefaultZus{}forward\PYGdefaultZus{}diff.txt\PYGdefaultZsq{} using 1:3 with lines title \PYGdefaultZsq{}Exp(10)\PYGdefaultZsq{}}
+\PYGdefault{l+s}{EOF}
+
+\PYGdefault{c}{\PYGdefaultZsh{}\PYGdefaultZsh{} Plot data for central difference algorithm}
+gnuplot \PYGdefault{l+s}{\PYGdefaultZlt{}\PYGdefaultZlt{} EOF}
+\PYGdefault{l+s}{set terminal pngcairo enhanced}
+\PYGdefault{l+s}{set encoding utf8}
+\PYGdefault{l+s}{set output \PYGdefaultZsq{}central\PYGdefaultZus{}diff.png\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set title \PYGdefaultZsq{}Relative Error \PYGdefaultZob{}/Symbol e\PYGdefaultZcb{}\PYGdefaultZus{}r vs. Step h for Central Difference Algorithm\PYGdefaultZsq{} }
+\PYGdefault{l+s}{set xlabel \PYGdefaultZsq{}h\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set ylabel \PYGdefaultZsq{}\PYGdefaultZob{}/Symbol e\PYGdefaultZcb{}\PYGdefaultZus{}r\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set logscale xy}
+\PYGdefault{l+s}{set format xy \PYGdefaultZsq{}1e\PYGdefaultZpc{}T\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set grid}
+\PYGdefault{l+s}{plot \PYGdefaultZsq{}cos0d1\PYGdefaultZus{}central\PYGdefaultZus{}diff.txt\PYGdefaultZsq{} using 1:3 with lines title \PYGdefaultZsq{}Cos(0.1)\PYGdefaultZsq{}, \PYGdefaultZbs{}}
+\PYGdefault{l+s}{	 \PYGdefaultZsq{}cos10\PYGdefaultZus{}central\PYGdefaultZus{}diff.txt\PYGdefaultZsq{} using 1:3 with lines title \PYGdefaultZsq{}Cos(10)\PYGdefaultZsq{}, \PYGdefaultZbs{}}
+\PYGdefault{l+s}{	 \PYGdefaultZsq{}exp0d1\PYGdefaultZus{}central\PYGdefaultZus{}diff.txt\PYGdefaultZsq{} using 1:3 with lines title \PYGdefaultZsq{}Exp(0.1)\PYGdefaultZsq{}, \PYGdefaultZbs{}}
+\PYGdefault{l+s}{	 \PYGdefaultZsq{}exp10\PYGdefaultZus{}central\PYGdefaultZus{}diff.txt\PYGdefaultZsq{} using 1:3 with lines title \PYGdefaultZsq{}Exp(10)\PYGdefaultZsq{}}
+\PYGdefault{l+s}{EOF}
+
+\PYGdefault{c}{\PYGdefaultZsh{}\PYGdefaultZsh{} Plot data for extrapolated difference algorithm}
+gnuplot \PYGdefault{l+s}{\PYGdefaultZlt{}\PYGdefaultZlt{} EOF}
+\PYGdefault{l+s}{set terminal pngcairo enhanced}
+\PYGdefault{l+s}{set encoding utf8}
+\PYGdefault{l+s}{set output \PYGdefaultZsq{}extrap\PYGdefaultZus{}diff.png\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set title \PYGdefaultZsq{}Relative Error \PYGdefaultZob{}/Symbol e\PYGdefaultZcb{}\PYGdefaultZus{}r vs. Step h for Extrapolated Difference Algorithm\PYGdefaultZsq{} }
+\PYGdefault{l+s}{set xlabel \PYGdefaultZsq{}h\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set ylabel \PYGdefaultZsq{}\PYGdefaultZob{}/Symbol e\PYGdefaultZcb{}\PYGdefaultZus{}r\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set logscale xy}
+\PYGdefault{l+s}{set format xy \PYGdefaultZsq{}1e\PYGdefaultZpc{}T\PYGdefaultZsq{}}
+\PYGdefault{l+s}{set grid}
+\PYGdefault{l+s}{plot \PYGdefaultZsq{}cos0d1\PYGdefaultZus{}extrap\PYGdefaultZus{}diff.txt\PYGdefaultZsq{} using 1:3 with lines title \PYGdefaultZsq{}Cos(0.1)\PYGdefaultZsq{}, \PYGdefaultZbs{}}
+\PYGdefault{l+s}{	 \PYGdefaultZsq{}cos10\PYGdefaultZus{}extrap\PYGdefaultZus{}diff.txt\PYGdefaultZsq{} using 1:3 with lines title \PYGdefaultZsq{}Cos(10)\PYGdefaultZsq{}, \PYGdefaultZbs{}}
+\PYGdefault{l+s}{	 \PYGdefaultZsq{}exp0d1\PYGdefaultZus{}extrap\PYGdefaultZus{}diff.txt\PYGdefaultZsq{} using 1:3 with lines title \PYGdefaultZsq{}Exp(0.1)\PYGdefaultZsq{}, \PYGdefaultZbs{}}
+\PYGdefault{l+s}{	 \PYGdefaultZsq{}exp10\PYGdefaultZus{}extrap\PYGdefaultZus{}diff.txt\PYGdefaultZsq{} using 1:3 with lines title \PYGdefaultZsq{}Exp(10)\PYGdefaultZsq{}}
+\PYGdefault{l+s}{EOF}
+\end{Verbatim}
